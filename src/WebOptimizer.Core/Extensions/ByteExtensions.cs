@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +23,30 @@ namespace WebOptimizer
             }
 
             return Encoding.UTF8.GetString(bytes);
+        }
+
+
+
+        /// <summary>
+        /// Converts a string into a byte array.
+        /// </summary>
+        public static byte[] Join(IEnumerable<byte[]> arrays)
+        {
+            var size = 0;
+
+            foreach (var arr in arrays)
+            {
+                size += arr.Length;
+            }
+            var result = new byte[size];
+            var pointer = 0;
+            // ReSharper disable once PossibleMultipleEnumeration
+            foreach (var arr in arrays)
+            {
+                arr.CopyTo(result, pointer);
+                pointer += arr.Length;
+            }
+            return result;
         }
 
         /// <summary>

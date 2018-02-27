@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using WebOptimizer;
 
@@ -10,16 +9,10 @@ namespace WebOptimizer
     {
         public override Task ExecuteAsync(IAssetContext context)
         {
-            var sb = new StringBuilder();
-
-            foreach (byte[] bytes in context.Content.Values)
-            {
-                sb.AppendLine(bytes.AsString());
-            }
-
+            var content = ByteExtensions.Join(context.Content.Values);
             context.Content = new Dictionary<string, byte[]>
             {
-                { Guid.NewGuid().ToString(), sb.ToString().AsByteArray() }
+                { Guid.NewGuid().ToString(), content}
             };
 
             return Task.CompletedTask;
